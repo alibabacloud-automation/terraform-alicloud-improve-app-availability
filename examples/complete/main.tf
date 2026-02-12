@@ -46,28 +46,24 @@ module "improve_app_availability" {
 
   ecs_vswitches_config = [
     {
-      name         = "ecs_vswitch_1"
       cidr_block   = "192.168.1.0/24"
       zone_id      = data.alicloud_zones.default.zones[0].id
       vswitch_name = "${var.common_name}-ecs-vsw-1"
     },
     {
-      name         = "ecs_vswitch_2"
       cidr_block   = "192.168.2.0/24"
       zone_id      = data.alicloud_zones.default.zones[1].id
-      vswitch_name = "${var.common_name}-ecs-vsw-1"
+      vswitch_name = "${var.common_name}-ecs-vsw-2"
     }
   ]
 
   alb_vswitches_config = [
     {
-      name         = "alb_vswitch_1"
       cidr_block   = "192.168.3.0/24"
       zone_id      = data.alicloud_alb_zones.default.zones[0].id
       vswitch_name = "${var.common_name}-alb-vsw-1"
     },
     {
-      name         = "alb_vswitch_2"
       cidr_block   = "192.168.4.0/24"
       zone_id      = data.alicloud_alb_zones.default.zones[1].id
       vswitch_name = "${var.common_name}-alb-vsw-2"
@@ -125,13 +121,11 @@ module "improve_app_availability" {
 
   ess_scaling_rules_config = [
     {
-      name              = "scale_up"
       scaling_rule_name = "${var.common_name}-scale-up"
       adjustment_type   = "QuantityChangeInCapacity"
       adjustment_value  = 1
     },
     {
-      name              = "scale_down"
       scaling_rule_name = "${var.common_name}-scale-down"
       adjustment_type   = "QuantityChangeInCapacity"
       adjustment_value  = -1
@@ -140,17 +134,15 @@ module "improve_app_availability" {
 
   ess_scheduled_tasks_config = [
     {
-      name                   = "scale_up_task"
-      scheduled_task_name    = "${var.common_name}-scale_up_task-${random_integer.default.result}"
-      launch_time            = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "1h"))
-      scaling_rule_name      = "scale_up"
+      scheduled_task_name    = "${var.common_name}-scale_up_task"
+      launch_time            = format("%sZ", substr(timeadd(time_static.example.rfc3339, "11h"), 0, 16))
+      scaling_rule_name      = "${var.common_name}-scale-up"
       launch_expiration_time = 10
     },
     {
-      name                   = "scale_down_task"
-      scheduled_task_name    = "${var.common_name}-scale_down_task-${random_integer.default.result}"
-      launch_time            = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "2h"))
-      scaling_rule_name      = "scale_down"
+      scheduled_task_name    = "${var.common_name}-scale_down_task"
+      launch_time            = format("%sZ", substr(timeadd(time_static.example.rfc3339, "12h"), 0, 16))
+      scaling_rule_name      = "${var.common_name}-scale-down"
       launch_expiration_time = 10
     }
   ]
