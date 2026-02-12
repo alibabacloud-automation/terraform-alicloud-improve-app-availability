@@ -11,13 +11,13 @@ output "vpc_cidr_block" {
 
 # VSwitch outputs
 output "ecs_vswitch_ids" {
-  description = "Map of ECS VSwitch names to their IDs"
-  value       = { for name, vswitch in alicloud_vswitch.ecs_vswitches : name => vswitch.id }
+  description = "Map of ECS VSwitch indices to their IDs"
+  value       = { for idx, vswitch in alicloud_vswitch.ecs_vswitches : idx => vswitch.id }
 }
 
 output "alb_vswitch_ids" {
-  description = "Map of ALB VSwitch names to their IDs"
-  value       = { for name, vswitch in alicloud_vswitch.alb_vswitches : name => vswitch.id }
+  description = "Map of ALB VSwitch indices to their IDs"
+  value       = { for idx, vswitch in alicloud_vswitch.alb_vswitches : idx => vswitch.id }
 }
 
 # Security Group outputs

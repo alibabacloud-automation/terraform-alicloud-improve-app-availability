@@ -18,22 +18,22 @@ resource "alicloud_vpc" "vpc" {
 
 # Create VSwitches for ECS
 resource "alicloud_vswitch" "ecs_vswitches" {
-  for_each = { for idx, vswitch in var.ecs_vswitches_config : vswitch.name => vswitch }
+  for_each = { for idx, vswitch in var.ecs_vswitches_config : idx => vswitch }
 
   vpc_id       = alicloud_vpc.vpc.id
   cidr_block   = each.value.cidr_block
   zone_id      = each.value.zone_id
-  vswitch_name = each.value.vswitch_name
+  vswitch_name = each.value.vswitch_name != "improve-app-availability-ecs-vsw" ? each.value.vswitch_name : "${each.value.vswitch_name}-${each.key}"
 }
 
 # Create VSwitches for ALB
 resource "alicloud_vswitch" "alb_vswitches" {
-  for_each = { for idx, vswitch in var.alb_vswitches_config : vswitch.name => vswitch }
+  for_each = { for idx, vswitch in var.alb_vswitches_config : idx => vswitch }
 
   vpc_id       = alicloud_vpc.vpc.id
   cidr_block   = each.value.cidr_block
   zone_id      = each.value.zone_id
-  vswitch_name = each.value.vswitch_name
+  vswitch_name = each.value.vswitch_name != "improve-app-availability-alb-vsw" ? each.value.vswitch_name : "${each.value.vswitch_name}-${each.key}"
 }
 
 # Create Security Group
@@ -158,7 +158,7 @@ resource "alicloud_ess_scaling_configuration" "ess_scaling_configuration" {
 
 # Create ESS Scaling Rules
 resource "alicloud_ess_scaling_rule" "ess_scaling_rules" {
-  for_each = { for idx, rule in var.ess_scaling_rules_config : rule.name => rule }
+  for_each = { for idx, rule in var.ess_scaling_rules_config : rule.scaling_rule_name => rule }
 
   scaling_group_id  = alicloud_ess_scaling_group.ess_scaling_group.id
   scaling_rule_name = each.value.scaling_rule_name
@@ -170,7 +170,7 @@ resource "alicloud_ess_scaling_rule" "ess_scaling_rules" {
 
 # Create ESS Scheduled Tasks
 resource "alicloud_ess_scheduled_task" "ess_scheduled_tasks" {
-  for_each = { for idx, task in var.ess_scheduled_tasks_config : task.name => task }
+  for_each = { for idx, task in var.ess_scheduled_tasks_config : task.scheduled_task_name => task }
 
   scheduled_task_name    = each.value.scheduled_task_name
   launch_time            = each.value.launch_time
