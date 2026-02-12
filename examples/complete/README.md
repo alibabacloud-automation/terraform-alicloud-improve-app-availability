@@ -24,6 +24,11 @@ $ terraform apply
 
 Note that this example may create resources which can cost money. Run `terraform destroy` when you don't need these resources.
 
+## Cost
+
+You can use the [Alibaba Cloud Pricing Calculator](https://www.alibabacloud.com/pricing-calculator) to get a cost estimate for resources created by this example.
+
+<!-- BEGIN_TF_DOCS -->
 ## Variables
 
 | Name | Description | Type | Default | Required |
@@ -49,3 +54,4 @@ Note that this example may create resources which can cost money. Run `terraform
 | terraform | >= 1.0 |
 | alicloud | >= 1.131.0 |
 | random | >= 3.0 |
+<!-- END_TF_DOCS -->
