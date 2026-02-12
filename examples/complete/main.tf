@@ -26,6 +26,15 @@ resource "random_password" "ecs_password" {
   special = true
 }
 
+# Time static resource for scheduling
+resource "time_static" "example" {}
+
+# Random integer for unique task names
+resource "random_integer" "default" {
+  min = 1
+  max = 99999
+}
+
 # Call the improve-app-availability module
 module "improve_app_availability" {
   source = "../../"
@@ -129,18 +138,20 @@ module "improve_app_availability" {
     }
   ]
 
-  ess_scheduled_tasks_config = var.scale_up_time != null || var.scale_down_time != null ? [
+  ess_scheduled_tasks_config = [
     {
-      name                = "scale_up_task"
-      scheduled_task_name = "${var.common_name}-scale-up-task"
-      launch_time         = var.scale_up_time != null && var.scale_up_time != "" ? var.scale_up_time : formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(timestamp(), "1h"))
-      scaling_rule_name   = "scale_up"
+      name                   = "scale_up_task"
+      scheduled_task_name    = "${var.common_name}-scale_up_task-${random_integer.default.result}"
+      launch_time            = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "1h"))
+      scaling_rule_name      = "scale_up"
+      launch_expiration_time = 10
     },
     {
-      name                = "scale_down_task"
-      scheduled_task_name = "${var.common_name}-scale-down-task"
-      launch_time         = var.scale_down_time != null && var.scale_down_time != "" ? var.scale_down_time : formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(timestamp(), "2h"))
-      scaling_rule_name   = "scale_down"
+      name                   = "scale_down_task"
+      scheduled_task_name    = "${var.common_name}-scale_down_task-${random_integer.default.result}"
+      launch_time            = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "2h"))
+      scaling_rule_name      = "scale_down"
+      launch_expiration_time = 10
     }
-  ] : []
+  ]
 }
