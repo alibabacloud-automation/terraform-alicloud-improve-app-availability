@@ -66,6 +66,11 @@ module "improve_app_availability" {
     instance_types = ["ecs.g7.large"]
     password       = random_password.ecs_password.result
   }
+
+  ess_scaling_group_config = {
+    min_size = 1
+    max_size = 3
+  }
 }
 ```
 
