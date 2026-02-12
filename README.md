@@ -1,7 +1,5 @@
 Alibaba Cloud Improve App Availability Terraform Module
 
-================================================ 
-
 # terraform-alicloud-improve-app-availability
 
 English | [简体中文](https://github.com/alibabacloud-automation/terraform-alicloud-improve-app-availability/blob/main/README-CN.md)
@@ -54,7 +52,6 @@ module "improve_app_availability" {
   source = "alibabacloud-automation/improve-app-availability/alicloud"
 
   vpc_config = {
-    vpc_name   = var.common_name
     cidr_block = "192.168.0.0/16"
   }
 
@@ -139,14 +136,12 @@ module "improve_app_availability" {
       scheduled_task_name = "${var.common_name}-scale_up_task-${random_integer.default.result}"
       launch_time         = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "1h"))
       scaling_rule_name   = "scale_up"
-      launch_expiration_time = 10
     },
     {
       name                = "scale_down_task"
       scheduled_task_name = "${var.common_name}-scale_down_task-${random_integer.default.result}"
       launch_time         = formatdate("YYYY-MM-DD'T'HH:mm'Z'", timeadd(time_static.example.rfc3339, "2h"))
       scaling_rule_name   = "scale_down"
-      launch_expiration_time = 10
     }
   ]
 }
@@ -156,17 +151,6 @@ module "improve_app_availability" {
 
 * [Complete Example](https://github.com/alibabacloud-automation/terraform-alicloud-improve-app-availability/tree/main/examples/complete)
 
-## Variables
-
-The following variables are used in the usage example above:
-
-```hcl
-variable "common_name" {
-  description = "Common name prefix for all resources"
-  type        = string
-  default     = "improve-app-availability"
-}
-```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

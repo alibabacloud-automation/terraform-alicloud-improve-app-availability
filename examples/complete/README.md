@@ -27,31 +27,3 @@ Note that this example may create resources which can cost money. Run `terraform
 ## Cost
 
 You can use the [Alibaba Cloud Pricing Calculator](https://www.alibabacloud.com/pricing-calculator) to get a cost estimate for resources created by this example.
-
-<!-- BEGIN_TF_DOCS -->
-## Variables
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| common_name | Common name prefix for all resources | `string` | `"improve-app-availability"` | no |
-| scale_up_time | Scheduled time for scaling up. Format: YYYY-MM-DDTHH:mmZ | `string` | `null` | no |
-| scale_down_time | Scheduled time for scaling down. Format: YYYY-MM-DDTHH:mmZ | `string` | `null` | no |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| web_url | The web access URL of the application |
-| vpc_id | The ID of the VPC |
-| alb_dns_name | The DNS name of the ALB load balancer |
-| ess_scaling_group_id | The ID of the ESS scaling group |
-| ess_scaling_rule_aris | Map of ESS scaling rule names to their ARIs |
-
-## Requirements
-
-| Name | Version |
-|------|---------|
-| terraform | >= 1.0 |
-| alicloud | >= 1.131.0 |
-| random | >= 3.0 |
-<!-- END_TF_DOCS -->
