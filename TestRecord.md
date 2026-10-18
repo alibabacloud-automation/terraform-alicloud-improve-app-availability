@@ -1,3 +1,15 @@
+## 18 Oct 2026 03:04 UTC
+
+success : false
+
+### Versions
+
+Terraform v1.14.3
+on linux_amd64
++ provider registry.terraform.io/aliyun/alicloud v2.0.0
++ provider registry.terraform.io/hashicorp/random v3.9.1
++ provider registry.terraform.io/hashicorp/time v0.14.2
+
 ## 11 Oct 2026 03:07 UTC
 
 success : false
@@ -105,15 +117,3 @@ on linux_amd64
 + provider registry.terraform.io/aliyun/alicloud v1.288.0
 + provider registry.terraform.io/hashicorp/random v3.9.0
 + provider registry.terraform.io/hashicorp/time v0.14.1
-
-## 09 Aug 2026 01:00 UTC
-
-success : false
-
-### Versions
-
-Terraform v1.14.3
-on linux_amd64
-+ provider registry.terraform.io/aliyun/alicloud v1.288.0
-+ provider registry.terraform.io/hashicorp/random v3.9.0
-+ provider registry.terraform.io/hashicorp/time v0.14.0
